@@ -1,0 +1,12 @@
+[%%LOGIN%%]
+user = %%LOGIN%%
+group = %%LOGIN%%
+listen = /run/php/php7.0-%%LOGIN%%.sock
+listen.owner = %%LOGIN%%
+listen.group = %%LOGIN%%
+pm = ondemand
+pm.max_children = 10
+pm.process_idle_timeout = 10s
+pm.max_requests = 500
+
+

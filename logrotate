@@ -1,0 +1,13 @@
+#
+# Logrotate.d script for AlternC-fpm
+#
+
+/var/log/alternc/php7-fpm.log {
+    weekly
+    missingok
+    create 0640 alterncpanel adm
+    rotate 8
+    compress
+    delaycompress
+    dateext
+}

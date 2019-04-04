@@ -1,0 +1,4 @@
+/usr/lib/alternc
+/etc/alternc/templates/php
+/etc/alternc/templates/apache2
+/etc/logrotate.d

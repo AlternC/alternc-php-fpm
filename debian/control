@@ -1,0 +1,23 @@
+Source: alternc-php-fpm
+Section: admin
+Priority: optional
+Maintainer: Benjamin Sonntag <benjamin@sonntag.fr>
+Build-Depends: debhelper (>= 8)
+Standards-Version: 3.9.8
+
+Package: alternc-php-fpm
+Priority: optional
+Section: admin
+Architecture: all
+Depends: alternc (>= 3.2.11), php7.0-fpm, php7.1-fpm, php7.2-fpm, php7.3-fpm
+Recommends: php7.0-cli,php7.0-common,php7.0-curl,php7.0-gd,php7.0-imap,php7.0-intl,php7.0-json,php7.0-mbstring,php7.0-mcrypt,php7.0-mysql,php7.0-opcache,php7.0-readline,php7.0-soap,php7.0-xml,php7.0-zip,php7.1-cli,php7.1-common,php7.1-imap,php7.1-json,php7.1-opcache,php7.1-readline,php7.2-cli,php7.2-common,php7.2-curl,php7.2-gd,php7.2-imap,php7.2-intl,php7.2-json,php7.2-mbstring,php7.2-mysql,php7.2-opcache,php7.2-readline,php7.2-soap,php7.2-xml,php7.2-zip,php7.3-cli,php7.3-common,php7.3-curl,php7.3-gd,php7.3-imap,php7.3-intl,php7.3-json,php7.3-mbstring,php7.3-mysql,php7.3-opcache,php7.3-readline,php7.3-xml,php7.3-zip
+Description: PHP7.x-fpm addon for AlternC
+ AlternC is a mutualized hosting software manager for Linux.
+ It allows you to manage your websites, domains, ftp, emails, aliases,
+ web statistics, mailing-lists, etc.
+ .
+ This package is an optional module that adds php7.x-fpm vhost templates
+ for AlternC. it is compatible with nginx-ssl and recommends
+ php7.x-fpm sury packages
+ .
+ More information on https://www.alternc.com/

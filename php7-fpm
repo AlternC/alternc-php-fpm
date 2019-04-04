@@ -1,0 +1,61 @@
+#!/usr/bin/php
+<?php
+
+/* This crontab adds/remove FPM pools for php 7.0/1/2/3
+   for each user who uses a fpm configuration
+*/
+   
+require_once("/usr/share/alternc/panel/class/config_nochk.php");
+
+// first launch sync_unix since we NEED unix user to exist!
+passthru("/usr/lib/alternc/sync-unix-accounts.php");
+
+$db->query("SELECT DISTINCT m.login,m.uid,sd.type FROM sub_domaines sd, membres m WHERE m.uid=sd.compte AND sd.type IN ('php70-fpm','php71-fpm','php72-fpm','php73-fpm');");
+
+$reload=array();
+$allpools=array();
+$allversions=array("7.0","7.1","7.2","7.3");
+
+function myecho($str) {
+	 static $first=true;
+	 if ($first) {
+	    echo date("Y-m-d H:i:s")." Log of php7-fpm\n";
+	    $first=false;
+	 }
+	 echo $str."\n";
+}
+
+while ($db->next_record()) {
+      $version=substr($db->f("type"),3,1).".".substr($db->f("type"),4,1);
+      $user=$db->f("login");
+      $allpools[$version][]=$user;
+      if (!is_file("/etc/php/".$version."/fpm/pool.d/".$user.".alternc.conf")) {
+          myecho("Creating php $version fpm pool for user $user");
+          file_put_contents("/etc/php/".$version."/fpm/pool.d/".$user.".alternc.conf",
+          str_replace("%%LOGIN%%",$user,
+          file_get_contents("/etc/alternc/templates/php/fpm-".$version)
+          ));
+          $reload[$version]=$version;
+      }
+}
+
+// now delete pools we don't need anymore
+foreach($allversions as $version) {
+    $d=opendir("/etc/php/$version/fpm/pool.d");
+    while (($c=readdir($d))!==false) {
+        if (preg_match('#/([^/]*).alternc.conf$#',$c,$mat)) {
+            $user=$mat[1];
+            if (!in_array($user,$allpools[$version])) {
+                echo("Deleting php $version fpm pool for user $user");
+                @unlink("/etc/php/".$version."/fpm/pool.d/".$user.".alternc.conf");
+                $reload[$version]=$version;
+            }
+        }
+    }
+}
+
+// now reloads php fpm versions
+foreach($reload as $service) {
+    passthru("/etc/init.d/php".$service."-fpm reload");  
+}
+

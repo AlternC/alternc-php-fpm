@@ -1,0 +1,5 @@
+debian/.debhelper/
+debian/files
+debian/alternc-php-fpm.debhelper.log
+debian/alternc-php-fpm.substvars
+debian/alternc-php-fpm/

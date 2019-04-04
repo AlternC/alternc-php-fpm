@@ -1,0 +1,5 @@
+alternc-php-fpm (3.3) oldstable; urgency=low
+
+  * Initial module for AlternC
+
+ -- Benjamin Sonntag <benjamin@sonntag.fr>  Thu,  4 Apr 2018 12:32:33 +0200
