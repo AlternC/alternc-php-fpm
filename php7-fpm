@@ -18,6 +18,14 @@ $reload=array();
 $allpools=array();
 $allversions=array("5.6","7.0","7.1","7.2","7.3");
 
+// detect installed versions
+foreach($allversions as $k=>$version) {
+    if (!is_dir("/etc/php/$version/fpm/pool.d")) {
+        unset($allversions[$k]);
+    }
+}
+
+
 function myecho($str) {
 	 static $first=true;
 	 if ($first) {
@@ -43,7 +51,7 @@ while ($db->next_record()) {
 
 // now delete pools we don't need anymore
 foreach($allversions as $version) {
-    $d=opendir("/etc/php/$version/fpm/pool.d");
+    $d=opendir("/etc/php/$version/fpm/pool.d"	);
     while (($c=readdir($d))!==false) {
         if (preg_match('#/([^/]*).alternc.conf$#',$c,$mat)) {
             $user=$mat[1];
