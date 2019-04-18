@@ -6,7 +6,8 @@ listen.owner = %%LOGIN%%
 listen.group = %%LOGIN%%
 pm = ondemand
 pm.max_children = 10
-pm.process_idle_timeout = 10s
-pm.max_requests = 500
+pm.process_idle_timeout = 60s
+pm.max_requests = 1000
+catch_workers_output = yes
 
 

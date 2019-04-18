@@ -2,13 +2,20 @@
 
 case "$1" in
     configure)
+	echo "Enabling apache modules"
+	a2enmod proxy_fcgi setenvif
+	service apache2 restart
 	echo "Installing mysql table"
 	mysql --defaults-file=/etc/alternc/my.cnf -e "
+INSERT IGNORE INTO domaines_type VALUES ('php56-fpm','PHP 5.6 FPM','DIRECTORY','%SUB% IN A @@PUBLIC_IP@@','txt,defmx,defmx2,mx,mx2','ALL',0,0,0,0,0);
 INSERT IGNORE INTO domaines_type VALUES ('php70-fpm','PHP 7.0 FPM','DIRECTORY','%SUB% IN A @@PUBLIC_IP@@','txt,defmx,defmx2,mx,mx2','ALL',0,0,0,0,0);
 INSERT IGNORE INTO domaines_type VALUES ('php71-fpm','PHP 7.1 FPM','DIRECTORY','%SUB% IN A @@PUBLIC_IP@@','txt,defmx,defmx2,mx,mx2','ALL',0,0,0,0,0);
 INSERT IGNORE INTO domaines_type VALUES ('php72-fpm','PHP 7.2 FPM','DIRECTORY','%SUB% IN A @@PUBLIC_IP@@','txt,defmx,defmx2,mx,mx2','ALL',0,0,0,0,0);
 INSERT IGNORE INTO domaines_type VALUES ('php73-fpm','PHP 7.3 FPM','DIRECTORY','%SUB% IN A @@PUBLIC_IP@@','txt,defmx,defmx2,mx,mx2','ALL',0,0,0,0,0);
+UPDATE sub_domaines SET web_action='UPDATE' WHERE type IN ('php56-fpm','php70-fpm','php71-fpm','php72-fpm','php73-fpm');
 "
+	echo "Overriding php fpm configuration..."
+	/usr/lib/alternc/php7-fpm force
 	;;
 esac
 

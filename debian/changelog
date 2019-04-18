@@ -1,3 +1,11 @@
+alternc-php-fpm (3.3.1) oldstable; urgency=low
+
+  * Adding Authorization header passing + a2enmod in postinst
+  * php-fpm configuration adapted to add proper logging
+  * adding php5.6 fpm management for stretch
+
+ -- Benjamin Sonntag <benjamin@sonntag.fr>  Thu,  4 Apr 2018 12:32:33 +0200
+
 alternc-php-fpm (3.3) oldstable; urgency=low
 
   * Initial module for AlternC
