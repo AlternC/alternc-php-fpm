@@ -24,7 +24,6 @@
 build:
 
 install:
-	install -m 0755 php7-fpm sync-unix-accounts.php $(DESTDIR)/usr/lib/alternc/
 	install -m 0644 -o root -g root apache2/* $(DESTDIR)/etc/alternc/templates/apache2/
 	install -m 0644 -o root -g root php/* $(DESTDIR)/etc/alternc/templates/php/
 	install -m 0644 -o root -g root logrotate $(DESTDIR)/etc/logrotate.d/
