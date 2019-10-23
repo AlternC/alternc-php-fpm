@@ -7,8 +7,8 @@
    
 require_once("/usr/share/alternc/panel/class/config_nochk.php");
 
-// first launch sync_unix since we NEED unix user to exist!
-passthru("/usr/lib/alternc/sync-unix-accounts.php");
+// first launch extra users script since we NEED unix user to exist!
+passthru("/usr/lib/alternc/install.d/alternc-nss end");
 
 $force = (isset($argv[1]) && $argv[1]=="force");
 
