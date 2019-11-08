@@ -1,3 +1,12 @@
+alternc-php-fpm (3.3.2) oldstable; urgency=low
+
+  * Solve post installation script (insertion in database)
+  * Support https and http template
+  * Prefere altenrc-nss plugin to manage posix account
+  * Add a readme to help compilation and installation
+
+ -- Camille Lafitte <alternc@webelys.com>  Wed,  23 Apr 2019 16:32:33 +0200
+
 alternc-php-fpm (3.3.1) oldstable; urgency=low
 
   * Adding Authorization header passing + a2enmod in postinst
