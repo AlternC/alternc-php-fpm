@@ -1,8 +1,15 @@
+alternc-php-fpm (3.4) oldstable; urgency=low
+
+  * Add support for PHP7.4
+  * Better Readme (used our repository)
+
+ -- Benjamin Sonntag <benjamin@sonntag.fr>  Sat, 25 Jan 2020 20:2é:00 +0200
+
 alternc-php-fpm (3.3.2) oldstable; urgency=low
 
   * Solve post installation script (insertion in database)
   * Support https and http template
-  * Prefere altenrc-nss plugin to manage posix account
+  * Prefers alternc-nss plugin to manage posix accounts sync
   * Add a readme to help compilation and installation
 
  -- Camille Lafitte <alternc@webelys.com>  Wed,  23 Apr 2019 16:32:33 +0200

@@ -1,19 +1,23 @@
 ### Packaging ###
 
-Actualy we don't provide again a direct download / repository service. You can compile this package with
+You can compile this package with:
+
 ```
     apt install build-essential
     dpkg-buildpackage -us -uc
-
 ```
 
 ### Installation ###
 
-We could recommend this installation procedure. 
+This package relies heavily on the great packaging on Ondrej Sury at this address: [Sury packages](https://deb.sury.org/)
 
-To get all packages without build them, you can use [Sury packages](https://deb.sury.org/)
+Ondrej provides us with all versions of php (from 5.6 to 7.4) for all current versions of debian (from oldoldstable to testing)
+
+To use its repository do as follow:
+
 ```
-wget https://packages.sury.org/php/README.txt -O -|bash -x
+wget https://packages.sury.org/php/README.txt -O install.sh
+bash -x install.sh
 ```
 
 In this case don't forget to pin this repository :
@@ -25,11 +29,19 @@ Pin-Priority: 100
 ```
 
 Finaly we can install package :
+
+
+You can use our repository to install this package:
+
 ```
-# if php 5.6 is required
+wget https://debian.alternc.org/key.txt -O - | apt-key add - 
+apt update
+
+# if php 5.6 is required (eg: on stretch or buster and you need old php :/)
 apt install php5.6-fpm php5.6-mysql
-# at least all default php7.x packages
 apt install php7*-gd php7*-mysql php7*-intl
-dpkg -i /tmp/alternc-php-fpm.*.deb
-apt install -f
+apt install alternc-php-fpm
 ```
+
+We recommend you to use --install-suggests to install all php-version-related modules
+
