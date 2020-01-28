@@ -28,6 +28,18 @@ nano /etc/apt/preferences.d/sury
 Package: *
 Pin: origin "packages.sury.org"
 Pin-Priority: 100
+
+Package: libpcre*
+Pin: origin "packages.sury.org"
+Pin-Priority: 500
+
+Package: libapache2-mod-php*
+Pin: origin "packages.sury.org"
+Pin-Priority: 500
+
+Package: php*
+Pin: origin "packages.sury.org"
+Pin-Priority: 500
 ```
 
 Finaly we can install package :
