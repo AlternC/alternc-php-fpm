@@ -40,8 +40,8 @@ wget https://debian.alternc.org/key.txt -O - | apt-key add -
 apt update
 
 # if php 5.6 is required (eg: on stretch or buster and you need old php :/)
-apt install php5.6-fpm php5.6-mysql
-apt install php7*-gd php7*-mysql php7*-intl
+apt install php5.6-fpm php5.6-mysql php5.6-common
+apt install php7*-gd php7*-mysql php7*-intl php7*-common
 apt install alternc-php-fpm
 ```
 
