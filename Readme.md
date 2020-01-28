@@ -3,7 +3,9 @@
 You can compile this package with:
 
 ```
-    apt install build-essential
+    apt install build-essential debhelper git
+    git clone https://github.com/AlternC/alternc-php-fpm
+    cd alternc-php-fpm
     dpkg-buildpackage -us -uc
 ```
 
