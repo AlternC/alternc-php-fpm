@@ -1,9 +1,17 @@
+alternc-php-fpm (3.4.1~octopuce) oldstable; urgency=low
+
+  * Fix support for PHP5.6
+  * Depends on the same modules for all php7 versions
+  * Add sync-unix-accounts.php instead of alternc-nss ( Octopuce specific )
+
+ -- Thibault François <thibault@octopuce.fr>  Wed,  9 Sep 2020 11:11:11 +0200
+
 alternc-php-fpm (3.4) oldstable; urgency=low
 
   * Add support for PHP7.4
   * Better Readme (used our repository)
 
- -- Benjamin Sonntag <benjamin@sonntag.fr>  Sat, 25 Jan 2020 20:2é:00 +0200
+ -- Benjamin Sonntag <benjamin@sonntag.fr>  Sat, 25 Jan 2020 20:22:00 +0200
 
 alternc-php-fpm (3.3.2) oldstable; urgency=low
 
