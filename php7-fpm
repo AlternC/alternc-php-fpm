@@ -7,9 +7,6 @@
    
 require_once("/usr/share/alternc/panel/class/config_nochk.php");
 
-// first launch sync_unix since we NEED unix user to exist!
-passthru("/usr/lib/alternc/install.d/alternc-nss end");
-
 $force = (isset($argv[1]) && $argv[1]=="force");
 
 $db->query("SELECT DISTINCT m.login,m.uid,sd.type FROM sub_domaines sd, membres m WHERE m.uid=sd.compte AND sd.type IN ('php56-fpm','php70-fpm','php71-fpm','php72-fpm','php73-fpm','php74-fpm');");

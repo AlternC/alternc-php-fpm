@@ -1,3 +1,9 @@
+alternc-php-fpm (3.4.3~octopuce) oldstable; urgency=low
+
+  * Remove last dependencies on alternc-nss
+
+ -- Thibault François <thibault@octopuce.fr>  Wed,  9 Sep 2020 12:12:12 +0200
+
 alternc-php-fpm (3.4.2~octopuce) oldstable; urgency=low
 
   * Fix dependencies on alternc-ssl
