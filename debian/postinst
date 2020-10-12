@@ -7,12 +7,13 @@ case "$1" in
 	service apache2 restart
 	echo "Installing mysql table"
 	mysql --defaults-file=/etc/alternc/my.cnf -e "
-INSERT IGNORE INTO domaines_type SET name='php70-fpm', description='PHP 7.0 FPM', target='DIRECTORY', entry='%SUB% IN A @@PUBLIC_IP@@', compatibility='txt,defmx,defmx2,mx,mx2', enable='ALL', need_dns=0;
-INSERT IGNORE INTO domaines_type SET name='php71-fpm', description='PHP 7.1 FPM', target='DIRECTORY', entry='%SUB% IN A @@PUBLIC_IP@@', compatibility='txt,defmx,defmx2,mx,mx2', enable='ALL', need_dns=0;
-INSERT IGNORE INTO domaines_type SET name='php72-fpm', description='PHP 7.2 FPM', target='DIRECTORY', entry='%SUB% IN A @@PUBLIC_IP@@', compatibility='txt,defmx,defmx2,mx,mx2', enable='ALL', need_dns=0;
-INSERT IGNORE INTO domaines_type SET name='php73-fpm', description='PHP 7.3 FPM', target='DIRECTORY', entry='%SUB% IN A @@PUBLIC_IP@@', compatibility='txt,defmx,defmx2,mx,mx2', enable='ALL', need_dns=0;
-INSERT IGNORE INTO domaines_type SET name='php73-fpm', description='PHP 7.4 FPM', target='DIRECTORY', entry='%SUB% IN A @@PUBLIC_IP@@', compatibility='txt,defmx,defmx2,mx,mx2', enable='ALL', need_dns=0;
-UPDATE sub_domaines SET web_action='UPDATE' WHERE type IN ('php56-fpm','php70-fpm','php71-fpm','php72-fpm','php73-fpm', 'php74-fpm');
+INSERT IGNORE INTO domaines_type SET name='php56-fpm', description='PHP 5.6 FPM', target='DIRECTORY', entry='%SUB% IN A @@PUBLIC_IP@@', compatibility='txt,defmx,defmx2,mx,mx2', enable='ALL', need_dns=0, has_https_option=1;
+INSERT IGNORE INTO domaines_type SET name='php70-fpm', description='PHP 7.0 FPM', target='DIRECTORY', entry='%SUB% IN A @@PUBLIC_IP@@', compatibility='txt,defmx,defmx2,mx,mx2', enable='ALL', need_dns=0, has_https_option=1;
+INSERT IGNORE INTO domaines_type SET name='php71-fpm', description='PHP 7.1 FPM', target='DIRECTORY', entry='%SUB% IN A @@PUBLIC_IP@@', compatibility='txt,defmx,defmx2,mx,mx2', enable='ALL', need_dns=0, has_https_option=1;
+INSERT IGNORE INTO domaines_type SET name='php72-fpm', description='PHP 7.2 FPM', target='DIRECTORY', entry='%SUB% IN A @@PUBLIC_IP@@', compatibility='txt,defmx,defmx2,mx,mx2', enable='ALL', need_dns=0, has_https_option=1;
+INSERT IGNORE INTO domaines_type SET name='php73-fpm', description='PHP 7.3 FPM', target='DIRECTORY', entry='%SUB% IN A @@PUBLIC_IP@@', compatibility='txt,defmx,defmx2,mx,mx2', enable='ALL', need_dns=0, has_https_option=1;
+INSERT IGNORE INTO domaines_type SET name='php74-fpm', description='PHP 7.4 FPM', target='DIRECTORY', entry='%SUB% IN A @@PUBLIC_IP@@', compatibility='txt,defmx,defmx2,mx,mx2', enable='ALL', need_dns=0, has_https_option=1;
+UPDATE sub_domaines SET web_action='UPDATE' WHERE type IN ('php56-fpm','php70-fpm','php71-fpm','php72-fpm','php73-fpm','php74-fpm');
 "
 	echo "Overriding php fpm configuration..."
 	/usr/lib/alternc/php7-fpm force
