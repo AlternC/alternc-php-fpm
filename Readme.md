@@ -13,7 +13,7 @@ You can compile this package with:
 
 This package relies heavily on the great packaging on Ondrej Sury at this address: [Sury packages](https://deb.sury.org/)
 
-Ondrej provides us with all versions of php (from 5.6 to 7.4) for all current versions of debian (from oldoldstable to testing)
+Ondrej provides us with all versions of php (from 5.6 to 8.0) for all current versions of debian (from oldoldstable to testing)
 
 To use its repository do as follow:
 
@@ -54,6 +54,7 @@ apt update
 # if php 5.6 is required (eg: on stretch or buster and you need old php :/)
 apt install php5.6-fpm php5.6-mysql php5.6-common
 apt install php7*-gd php7*-mysql php7*-intl php7*-common
+apt install php8.0-fpm php8.0-mysql php8.0-common
 apt install alternc-php-fpm
 ```
 
