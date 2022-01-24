@@ -9,20 +9,22 @@ Package: alternc-php-fpm
 Priority: optional
 Section: admin
 Architecture: all
-Depends: alternc (>= 3.2.11), php7.0-fpm, php7.1-fpm, php7.2-fpm, php7.3-fpm, php7.4-fpm
+Depends: alternc (>= 3.2.11), php7.0-fpm, php7.1-fpm, php7.2-fpm, php7.3-fpm, php7.4-fpm, php8.0-fpm, php8.1-fpm
 Recommends:
     php7.0-cli,php7.0-common,php7.0-curl,php7.0-gd,php7.0-imap,php7.0-intl,php7.0-json,php7.0-mbstring,php7.0-mysql,php7.0-opcache,php7.0-readline,php7.0-soap,php7.0-xml,php7.0-zip,php7.0-mcrypt,
     php7.1-cli,php7.1-common,php7.1-curl,php7.1-gd,php7.1-imap,php7.1-intl,php7.1-json,php7.1-mbstring,php7.1-mysql,php7.1-opcache,php7.1-readline,php7.1-soap,php7.1-xml,php7.1-zip,php7.1-mcrypt,
     php7.2-cli,php7.2-common,php7.2-curl,php7.2-gd,php7.2-imap,php7.2-intl,php7.2-json,php7.2-mbstring,php7.2-mysql,php7.2-opcache,php7.2-readline,php7.2-soap,php7.2-xml,php7.2-zip,php7.2-mcrypt,
     php7.3-cli,php7.3-common,php7.3-curl,php7.3-gd,php7.3-imap,php7.3-intl,php7.3-json,php7.3-mbstring,php7.3-mysql,php7.3-opcache,php7.3-readline,php7.3-soap,php7.3-xml,php7.3-zip,
     php7.4-cli,php7.4-common,php7.4-curl,php7.4-gd,php7.4-imap,php7.4-intl,php7.4-json,php7.4-mbstring,php7.4-mysql,php7.4-opcache,php7.4-readline,php7.4-soap,php7.4-xml,php7.4-zip,
-Description: PHP7.x-fpm addon for AlternC
+    php8.0-cli,php8.0-common,php8.0-curl,php8.0-gd,php8.0-imap,php8.0-intl,php8.0-json,php8.0-mbstring,php8.0-mysql,php8.0-opcache,php8.0-readline,php8.0-soap,php8.0-xml,php8.0-zip,
+    php8.1-cli,php8.1-common,php8.1-curl,php8.1-gd,php8.1-imap,php8.1-intl,php8.1-json,php8.1-mbstring,php8.1-mysql,php8.1-opcache,php8.1-readline,php8.1-soap,php8.1-xml,php8.1-zip,
+Description: phpX.X-fpm addon for AlternC
  AlternC is a mutualized hosting software manager for Linux.
  It allows you to manage your websites, domains, ftp, emails, aliases,
  web statistics, mailing-lists, etc.
  .
- This package is an optional module that adds php7.x-fpm vhost templates
+ This package is an optional module that adds phpX.X-fpm vhost templates
  for AlternC. it is compatible with nginx-ssl and recommends
- php7.x-fpm sury packages
+ phpX.X-fpm sury packages
  .
  More information on https://www.alternc.com/

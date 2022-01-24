@@ -1,3 +1,9 @@
+alternc-php-fpm (3.5~octopuce) oldstable; urgency=low
+
+  * Add php8.{0,1} handling
+
+ -- Thibault François <thibault@octopuce.fr>  Mon,  24 Jan 2022 14:45:27 +0200
+
 alternc-php-fpm (3.4.4~octopuce) oldstable; urgency=low
 
   * Fixed mysql php7.4 fpm addition

@@ -1,7 +1,7 @@
 #!/usr/bin/php
 <?php
 
-/* This crontab adds/remove FPM pools for php 7.0/1/2/3
+/* This crontab adds/remove FPM pools for php 7.{0..4} 8.{0,1}
    for each user who uses a fpm configuration
 */
    
@@ -9,11 +9,11 @@ require_once("/usr/share/alternc/panel/class/config_nochk.php");
 
 $force = (isset($argv[1]) && $argv[1]=="force");
 
-$db->query("SELECT DISTINCT m.login,m.uid,sd.type FROM sub_domaines sd, membres m WHERE m.uid=sd.compte AND sd.type IN ('php56-fpm','php70-fpm','php71-fpm','php72-fpm','php73-fpm','php74-fpm');");
+$db->query("SELECT DISTINCT m.login,m.uid,sd.type FROM sub_domaines sd, membres m WHERE m.uid=sd.compte AND sd.type IN ('php56-fpm','php70-fpm','php71-fpm','php72-fpm','php73-fpm','php74-fpm','php80-fpm','php81-fpm');");
 
 $reload=array();
 $allpools=array();
-$allversions=array("5.6","7.0","7.1","7.2","7.3","7.4");
+$allversions=array("5.6","7.0","7.1","7.2","7.3","7.4", "8.0", "8.1");
 
 // detect installed versions
 foreach($allversions as $k=>$version) {
