@@ -23,6 +23,9 @@
 
 build:
 
+build_deb:
+	dpkg-buildpackage -us -uc
+
 install:
 	install -m 0644 -o root -g root apache2/* $(DESTDIR)/etc/alternc/templates/apache2/
 	install -m 0644 -o root -g root php/* $(DESTDIR)/etc/alternc/templates/php/

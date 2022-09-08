@@ -1,3 +1,9 @@
+alternc-php-fpm (3.5.1~octopuce) oldstable; urgency=low
+
+  * Add rule to ignore dotfile in Apache2/PHP-fpm vhost templates
+
+ -- Pierre Bourdin <pierre@octopuce.fr>  Wed, 31 Aug 2022 17:08:04 +0200
+
 alternc-php-fpm (3.5~octopuce) oldstable; urgency=low
 
   * Add php8.{0,1} handling
