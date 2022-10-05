@@ -37,6 +37,12 @@ while ($db->next_record()) {
     if (in_array($db->Record["login"],$skip)) continue;
     $members[$db->Record["uid"]]=$db->Record["login"];
 }
+if (!count($members)) {
+    @unlink($lock);
+    syslog(LOG_INFO,"Fatal error while enumerating AlternC accounts (db error?)");
+    exit(0);
+}
+
 
 $f=fopen("/etc/passwd","rb");
 while ($s=fgets($f,1024)) {
