@@ -13,7 +13,7 @@ You can compile this package with:
 
 This package relies heavily on the great packaging on Ondrej Sury at this address: [Sury packages](https://deb.sury.org/)
 
-Ondrej provides us with all versions of php (from 5.6 to 7.4) for all current versions of debian (from oldoldstable to testing)
+Ondrej provides us with all versions of php (from 5.6 to 8.1) for all current versions of debian (from oldoldstable to testing)
 
 To use its repository do as follow:
 
