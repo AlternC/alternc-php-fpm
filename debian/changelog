@@ -3,7 +3,7 @@ alternc-php-fpm (3.4) oldstable; urgency=low
   * Add support for PHP7.4
   * Better Readme (used our repository)
 
- -- Benjamin Sonntag <benjamin@sonntag.fr>  Sat, 25 Jan 2020 20:2é:00 +0200
+ -- Benjamin Sonntag <benjamin@sonntag.fr>  Sat, 25 Jan 2020 20:20:00 +0200
 
 alternc-php-fpm (3.3.2) oldstable; urgency=low
 
