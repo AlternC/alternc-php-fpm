@@ -5,10 +5,10 @@ case "$1" in
 	echo "Configure template apache"
 	templates_path="/etc/alternc/templates/"
 	templates_source_apache="$templates_path/3.5/apache2/"
-	alternc_version=$(dpkg-query --showformat='${Version}\n' --show alternccc)
+	alternc_version=$(dpkg-query --showformat='${Version}\n' --show alternc)
 	if [[ -n "$alternc_version" ]]; then
-        if [[ "${alternc_version:-0}" < "3.5" ]]; then
-                templates_source_apache="$templates_path/3.3/apache2"
+        if dpkg --compare-versions "${alternc_version:-0}" "<<" "3.5"; then
+            templates_source_apache="$templates_path/3.3/apache2"
         fi
         for template in "$templates_source_apache"/*.conf; do
                 template_name=$(basename "$template")
