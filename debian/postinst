@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+#DEBHELPER#
+
 function generate_domains_type() {
 	alternc_version=$1
 	php_list=$(ls /etc/php |grep -v fpm)
