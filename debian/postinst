@@ -23,7 +23,6 @@ function generate_domains_type() {
 				compatibility='txt,defmx,defmx2,mx,mx2', \
 				enable='ALL', \
 				need_dns=0, \
-				has_https_option=1, \
 				$set_default \
 				create_targetdir=1 \
 			;"
@@ -61,6 +60,12 @@ case "$1" in
 	echo "Overriding php fpm configuration..."
 	/usr/lib/alternc/php7-fpm force
 	;;
+
+    triggered)
+	echo "Update php domains type"
+	generate_domains_type "$alternc_version"
+    ;;
+
 esac
 
 # dh_installdeb will replace this with shell code automatically
