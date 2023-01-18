@@ -1,6 +1,7 @@
 debian/.debhelper/
+debian/debhelper-build-stamp/
 debian/files
 debian/alternc-php-fpm.debhelper.log
 debian/alternc-php-fpm.substvars
 debian/alternc-php-fpm/
-077CC9F2.gpg
+*.gpg
