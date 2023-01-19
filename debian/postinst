@@ -64,7 +64,8 @@ case "$1" in
 	;;
 
     triggered)
-	echo "Update php domains type"
+	echo "Alternc PHP FPM"
+	printf "\tUpdate php domains type"
 	generate_domains_type "$alternc_version"
     ;;
 
