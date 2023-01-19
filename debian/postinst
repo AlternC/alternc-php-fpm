@@ -2,6 +2,30 @@
 
 #DEBHELPER#
 
+function generate_template_apache() {
+	alternc_version=$1
+	template_apache_path="/etc/alternc/templates/3.5/apache2/"
+
+	php_list=$(find /etc/php -type d -iname "[0-9]*" |sed 's/^[^0-9]*//')
+
+	if dpkg --compare-versions "${alternc_version:-0}" "<<" "3.5"; then
+		template_apache_path="/etc/alternc/templates/3.3/apache2/"
+	fi
+
+	for php_version in $php_list
+	do
+		php_version_short=${php_version//./}
+		for template_source_path in "$template_apache_path"*
+		do
+			template_source_name=$(basename "$template_source_path")
+			template_target_path=/etc/alternc/templates/apache2/${template_source_name//php-/php$php_version_short-}
+			cp "$template_source_path" "$template_target_path"
+			sed -i "$template_target_path" -e "s/%%PHPVERSION%%/$php_version/"
+		done
+	done
+}
+
+
 function generate_domains_type() {
 	alternc_version=$1
 	php_list=$(find /etc/php -type d -iname "[0-9]*" |sed 's/^[^0-9]*//')
@@ -59,6 +83,8 @@ case "$1" in
 	service apache2 restart
 	echo "Installing mysql table"
 	generate_domains_type "$alternc_version"
+	echo "Generating related apache template"
+	generate_template_apache "$alternc_version"
 	echo "Overriding php fpm configuration..."
 	/usr/lib/alternc/php7-fpm force
 	;;
