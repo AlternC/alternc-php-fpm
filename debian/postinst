@@ -64,27 +64,15 @@ function generate_domains_type() {
 
 case "$1" in
     configure)
-	echo "Configure template apache"
-	templates_path="/etc/alternc/templates/"
-	templates_source_apache="$templates_path/3.5/apache2/"
 	alternc_version=$(dpkg-query --showformat='${Version}\n' --show alternc)
-	if [[ -n "$alternc_version" ]]; then
-        if dpkg --compare-versions "${alternc_version:-0}" "<<" "3.5"; then
-            templates_source_apache="$templates_path/3.3/apache2"
-        fi
-        for template in "$templates_source_apache"/*.conf; do
-                template_name=$(basename "$template")
-                ln -sf "$template" "$templates_path/apache2/$template_name"
-        done
-	fi
+	echo "Generating related apache template"
+	generate_template_apache "$alternc_version"
 
 	echo "Enabling apache modules"
 	a2enmod proxy_fcgi setenvif
 	service apache2 restart
 	echo "Installing mysql table"
 	generate_domains_type "$alternc_version"
-	echo "Generating related apache template"
-	generate_template_apache "$alternc_version"
 	echo "Overriding php fpm configuration..."
 	/usr/lib/alternc/php7-fpm force
 	;;
