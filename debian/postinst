@@ -4,7 +4,7 @@
 
 function generate_domains_type() {
 	alternc_version=$1
-	php_list=$(ls /etc/php |grep -v fpm)
+	php_list=$(find /etc/php -type d -iname "[0-9]*" |sed 's/^[^0-9]*//')
 	sql=""
 	sql_in=""
 	set_default=""
