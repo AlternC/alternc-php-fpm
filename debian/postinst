@@ -2,6 +2,33 @@
 
 #DEBHELPER#
 
+function remove_domains_type() {
+        alternc_version=$1
+        template_target_path="/etc/alternc/templates/apache2/"
+        php_version_short_list=$(find /etc/php -type d -iname "[0-9]*" |sed 's/[^0-9]*//g')
+        sql=""
+
+        for template_path_file in "$template_target_path"*.conf
+        do
+			template_file=$(basename "$template_path_file")
+			if [[ $template_file =~ ^php[[:digit:]]+.* ]]; then
+				php_version_short=${template_file//[^[:digit:]]}
+
+				#Template found without their php version
+				if [[ ! ${php_version_short_list[*]} =~ (^|[[:space:]])$php_version_short($|[[:space:]]) ]]; then
+					rm "$template_path_file"
+					type_name="php$php_version_short-fpm"
+					sql="$sql \
+					DELETE FROM domaines_type WHERE \
+						name='$type_name' \
+					;"
+				fi
+			fi
+        done
+
+		mysql --defaults-file=/etc/alternc/my.cnf -e "$sql"
+}
+
 function generate_template_apache() {
 	alternc_version=$1
 	template_apache_path="/etc/alternc/templates/3.5/apache2/"
@@ -73,6 +100,8 @@ case "$1" in
 	service apache2 restart
 	echo "Installing mysql table"
 	generate_domains_type "$alternc_version"
+	printf "\tClean domains type"
+	remove_domains_type "$alternc_version"
 	echo "Overriding php fpm configuration..."
 	/usr/lib/alternc/php7-fpm force
 	;;
@@ -81,6 +110,8 @@ case "$1" in
 	echo "Alternc PHP FPM"
 	printf "\tUpdate php domains type"
 	generate_domains_type "$alternc_version"
+	printf "\tClean domains type"
+	remove_domains_type "$alternc_version"
     ;;
 
 esac
