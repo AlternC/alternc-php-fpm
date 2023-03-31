@@ -1,7 +1,7 @@
 #!/usr/bin/php
 <?php
 
-/* This crontab adds/remove FPM pools for php 5.6 to 8.0
+/* This crontab adds/remove FPM pools for php 5.6 to 8.2
    for each user who uses a fpm configuration
 */
    
@@ -12,11 +12,11 @@ passthru("/usr/lib/alternc/install.d/alternc-nss end");
 
 $force = (isset($argv[1]) && $argv[1]=="force");
 
-$db->query("SELECT DISTINCT m.login,m.uid,sd.type FROM sub_domaines sd, membres m WHERE m.uid=sd.compte AND sd.type IN ('php56-fpm','php70-fpm','php71-fpm','php72-fpm','php73-fpm','php74-fpm','php80-fpm');");
+$db->query("SELECT DISTINCT m.login,m.uid,sd.type FROM sub_domaines sd, membres m WHERE m.uid=sd.compte AND sd.type IN ('php56-fpm','php70-fpm','php71-fpm','php72-fpm','php73-fpm','php74-fpm','php80-fpm','php81-fpm','php82-fpm');");
 
 $reload=array();
 $allpools=array();
-$allversions=array("5.6","7.0","7.1","7.2","7.3","7.4","8.0");
+$allversions=array("5.6","7.0","7.1","7.2","7.3","7.4","8.0","8.1","8.2");
 
 // detect installed versions
 foreach($allversions as $k=>$version) {
