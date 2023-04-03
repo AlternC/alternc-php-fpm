@@ -2,10 +2,20 @@
 
 #DEBHELPER#
 
+function list_php_version() {
+	if [[ $1 == "short" ]]; then
+		php_list=$(phpquery -s fpm -V |sed 's/[^0-9]*//g')
+	else
+		php_list=$(phpquery -s fpm -V)
+	fi
+
+	echo "$php_list"
+}
+
 function remove_domains_type() {
         alternc_version=$1
         template_target_path="/etc/alternc/templates/apache2/"
-        php_version_short_list=$(find /etc/php -type d -iname "[0-9]*" |sed 's/[^0-9]*//g')
+        php_version_short_list=$(list_php_version "short")
         sql=""
 
         for template_path_file in "$template_target_path"*.conf
@@ -33,7 +43,7 @@ function generate_template_apache() {
 	alternc_version=$1
 	template_apache_path="/etc/alternc/templates/3.5/apache2/"
 
-	php_list=$(find /etc/php -type d -iname "[0-9]*" |sed 's/^[^0-9]*//')
+	php_list=$(list_php_version)
 
 	if dpkg --compare-versions "${alternc_version:-0}" "<<" "3.5"; then
 		template_apache_path="/etc/alternc/templates/3.3/apache2/"
@@ -55,7 +65,7 @@ function generate_template_apache() {
 
 function generate_domains_type() {
 	alternc_version=$1
-	php_list=$(find /etc/php -type d -iname "[0-9]*" |sed 's/^[^0-9]*//')
+	php_list=$(list_php_version)
 	sql=""
 	sql_in=""
 	set_default=""
