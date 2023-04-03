@@ -1,4 +1,6 @@
-### Packaging ###
+# Get the package #
+
+## Build own package ##
 
 You can compile this package with:
 
@@ -9,14 +11,38 @@ You can compile this package with:
     dpkg-buildpackage -us -uc
 ```
 
-### Installation ###
+## From github ##
 
-This package relies heavily on the great packaging on Ondrej Sury at this address: [Sury packages](https://deb.sury.org/)
+You can obtain nightly and last stable package from the dedicated page : [releases page](https://github.com/AlternC/alternc-php-fpm/releases)
 
-Ondrej provides us with all versions of php (from 5.6 to 8.0) for all current versions of debian (from oldoldstable to testing)
+## From our repository ##
 
-To use its repository do as follow:
+Our stable repository is avalaible at https://debian.alternc.org
 
+```
+echo "deb http://debian.alternc.org/ $(lsb_release -cs) main" >> /etc/apt/sources.list.d/alternc.list 
+wget https://debian.alternc.org/key.txt -O - | apt-key add - 
+apt update
+```
+
+# How to use #
+
+This package supports both Alternc 3.3 and 3.5. An autodection script adapts templating installation following AlternC version.
+A php-fpm type is created for each fpm version detected during installation in  /etc/php/ directory.
+When a new phpX.Y-fpm package is detected, AlternC installs related template.
+
+A version-agnostic php-fpm template is provided at /etc/alternc/templates/3.x/apache2 directory. All php-fpm template are declined from this template.
+When a php-fpm template is set you can override it. Installation process don't overwrite any php-fpm template.
+
+If a php-X.Y-fpm package is deleted, the type is also removed from AlternC and won't be proposed any longer. All existing domains maintain  their template. Admin must update subdomain by subdomain.
+
+
+# Sury Dependencies #
+
+This package relies heavily by the great packaging on Ondrej Sury at this address: [Sury packages](https://deb.sury.org/)
+Ondrej provides us with all versions of php (from 5.6 to 8.x) for all current versions of debian (from oldoldstable to testing)
+
+To use this repository :
 ```
 wget https://packages.sury.org/php/README.txt -O install.sh
 bash -x install.sh
@@ -41,22 +67,4 @@ Package: php*
 Pin: origin "packages.sury.org"
 Pin-Priority: 500
 ```
-
-Finaly we can install package :
-
-
-You can use our repository to install this package:
-
-```
-wget https://debian.alternc.org/key.txt -O - | apt-key add - 
-apt update
-
-# if php 5.6 is required (eg: on stretch or buster and you need old php :/)
-apt install php5.6-fpm php5.6-mysql php5.6-common
-apt install php7*-gd php7*-mysql php7*-intl php7*-common
-apt install php8.0-fpm php8.0-mysql php8.0-common
-apt install alternc-php-fpm
-```
-
-We recommend you to use --install-suggests to install all php-version-related modules
 
