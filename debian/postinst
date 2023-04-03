@@ -101,28 +101,27 @@ function generate_domains_type() {
 
 
 alternc_version=$(dpkg-query --showformat='${Version}\n' --show alternc)
+printf "Alternc PHP FPM\n"
 
 case "$1" in
     configure)
-	echo "Generating related apache template"
+	printf "\tGenerating related apache template\n"
 	generate_template_apache "$alternc_version"
-
-	echo "Enabling apache modules"
+	printf "\tEnabling apache modules\n"
 	a2enmod proxy_fcgi setenvif
 	service apache2 restart
-	echo "Installing mysql table"
+	printf "\tInstall php-fpm type\n"
 	generate_domains_type "$alternc_version"
-	printf "\tClean domains type"
+	printf "\tRemove unused php-fpm version\n"
 	remove_domains_type "$alternc_version"
-	echo "Overriding php fpm configuration..."
+	printf "\tGenerate php fpm configuration...\n"
 	/usr/lib/alternc/php7-fpm force
 	;;
 
     triggered)
-	echo "Alternc PHP FPM"
-	printf "\tUpdate php domains type"
+	printf "\tUpdate php-fpm type\n"
 	generate_domains_type "$alternc_version"
-	printf "\tClean domains type"
+	printf "\tRemove unused php-fpm version\n"
 	remove_domains_type "$alternc_version"
     ;;
 
