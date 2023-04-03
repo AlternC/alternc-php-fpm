@@ -99,9 +99,11 @@ function generate_domains_type() {
 	mysql --defaults-file=/etc/alternc/my.cnf -e "$sql"
 }
 
+
+alternc_version=$(dpkg-query --showformat='${Version}\n' --show alternc)
+
 case "$1" in
     configure)
-	alternc_version=$(dpkg-query --showformat='${Version}\n' --show alternc)
 	echo "Generating related apache template"
 	generate_template_apache "$alternc_version"
 
