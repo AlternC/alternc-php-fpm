@@ -18,8 +18,8 @@ $reload=array();
 $allpools=array();
 $allversions=array();
 
-foreach(glob("/etc/php/*", GLOB_ONLYDIR) as $path) {
-    $allversions[]=trim(strrchr($path,"/"),"/");
+foreach(glob("/usr/lib/tmpfiles.d/php*-fpm.conf") as $path) {
+    $allversions[]=preg_filter('/(.*)([0-9]+\.[0-9]+)(.*)/',"$2",$path);
 }
 
 // detect installed fpm versions
@@ -73,6 +73,8 @@ foreach($allversions as $version) {
 
 // now reloads php fpm versions
 foreach($reload as $service) {
-    passthru("/etc/init.d/php".$service."-fpm reload");  
+    if (file_exists("/etc/init.d/php".$service."-fpm")) {
+        passthru("/etc/init.d/php".$service."-fpm reload");
+    }
 }
 
