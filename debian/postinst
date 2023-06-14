@@ -4,9 +4,9 @@
 
 function list_php_version() {
 	if [[ $1 == "short" ]]; then
-		php_list=$(echo /usr/lib/tmpfiles.d/php*-fpm.conf | fmt -1 | grep -oE '[0-9]+\.[0-9]+' |sed 's/[^0-9]*//g')
+		php_list=$(echo /usr/sbin/php-fpm* | fmt -1 | grep -oE '[0-9]+\.[0-9]+' |sed 's/[^0-9]*//g')
 	else
-		php_list=$(echo /usr/lib/tmpfiles.d/php*-fpm.conf | fmt -1 | grep -oE '[0-9]+\.[0-9]+')
+		php_list=$(echo /usr/sbin/php-fpm* | fmt -1 | grep -oE '[0-9]+\.[0-9]+')
 	fi
 
 	echo "$php_list"
