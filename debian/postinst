@@ -12,6 +12,12 @@ function list_php_version() {
 	echo "$php_list"
 }
 
+function remove_old_php_template() {
+	template_target_path="/etc/alternc/templates/php/"
+	find $template_target_path -regex "${template_target_path}fpm-[0-9]\.[0-9]" -delete
+	printf "\tAll old php-fpm template are deleted\n"
+}
+
 function remove_domains_type() {
         alternc_version=$1
         template_target_path="/etc/alternc/templates/apache2/"
@@ -110,6 +116,8 @@ case "$1" in
 	service apache2 restart
 	printf "\tGenerating related apache template\n"
 	generate_template_apache "$alternc_version"
+	printf "\tClean php-fpm templates\n"
+	remove_old_php_template
 	printf "\tInstall php-fpm type\n"
 	generate_domains_type "$alternc_version"
 	printf "\tRemove unused php-fpm version\n"
