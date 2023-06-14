@@ -2,7 +2,7 @@ alternc-php-fpm (3.4.1) oldstable; urgency=low
 
   * Fix some regressions, check alternc version to load php related php template
 
- -- Camille Lafitte <alternc@webelys.com>  Wed,  187 Jan 2023 167:55:00 +0200
+ -- Camille Lafitte <alternc@webelys.com>  Wed, 18 Jan 2023 16:55:00 +0200
 
 alternc-php-fpm (3.4) oldstable; urgency=low
 

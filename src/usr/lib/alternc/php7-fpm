@@ -1,7 +1,7 @@
 #!/usr/bin/php
 <?php
 
-/* This crontab adds/remove FPM pools for php 5.6 to 8.0
+/* This crontab adds/remove FPM pools for any php fpm version
    for each user who uses a fpm configuration
 */
    
@@ -12,13 +12,17 @@ passthru("/usr/lib/alternc/install.d/alternc-nss end");
 
 $force = (isset($argv[1]) && $argv[1]=="force");
 
-$db->query("SELECT DISTINCT m.login,m.uid,sd.type FROM sub_domaines sd, membres m WHERE m.uid=sd.compte AND sd.type IN ('php56-fpm','php70-fpm','php71-fpm','php72-fpm','php73-fpm','php74-fpm','php80-fpm');");
+$db->query("SELECT DISTINCT m.login,m.uid,sd.type FROM sub_domaines sd, membres m WHERE m.uid=sd.compte AND sd.type LIKE 'php__-fpm';");
 
 $reload=array();
 $allpools=array();
-$allversions=array("5.6","7.0","7.1","7.2","7.3","7.4","8.0");
+$allversions=array();
 
-// detect installed versions
+foreach(glob("/usr/lib/tmpfiles.d/php*-fpm.conf") as $path) {
+    $allversions[]=preg_filter('/(.*)([0-9]+\.[0-9]+)(.*)/',"$2",$path);
+}
+
+// detect installed fpm versions
 foreach($allversions as $k=>$version) {
     if (!is_dir("/etc/php/$version/fpm/pool.d")) {
         unset($allversions[$k]);
@@ -42,9 +46,12 @@ while ($db->next_record()) {
       if ($force || !is_file("/etc/php/".$version."/fpm/pool.d/".$user.".alternc.conf")) {
           myecho("Creating php $version fpm pool for user $user");
           file_put_contents("/etc/php/".$version."/fpm/pool.d/".$user.".alternc.conf",
-          str_replace("%%LOGIN%%",$user,
-          file_get_contents("/etc/alternc/templates/php/fpm-".$version)
-          ));
+            str_replace(
+              array("%%LOGIN%%","%%PHPVERSION%%"),
+              array($user,$version),
+              file_get_contents("/etc/alternc/templates/php/fpm")
+            )
+          );
           $reload[$version]=$version;
       }
 }
@@ -66,6 +73,8 @@ foreach($allversions as $version) {
 
 // now reloads php fpm versions
 foreach($reload as $service) {
-    passthru("/etc/init.d/php".$service."-fpm reload");  
+    if (file_exists("/etc/init.d/php".$service."-fpm")) {
+        passthru("/etc/init.d/php".$service."-fpm reload");
+    }
 }
 

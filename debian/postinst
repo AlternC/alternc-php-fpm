@@ -1,52 +1,140 @@
 #!/bin/bash -e
 
+#DEBHELPER#
+
+function list_php_version() {
+	if [[ $1 == "short" ]]; then
+		php_list=$(echo /usr/sbin/php-fpm* | fmt -1 | grep -oE '[0-9]+\.[0-9]+' |sed 's/[^0-9]*//g')
+	else
+		php_list=$(echo /usr/sbin/php-fpm* | fmt -1 | grep -oE '[0-9]+\.[0-9]+')
+	fi
+
+	echo "$php_list"
+}
+
+function remove_old_php_template() {
+	template_target_path="/etc/alternc/templates/php/"
+	find $template_target_path -regex "${template_target_path}fpm-[0-9]\.[0-9]" -delete
+	printf "\tAll old php-fpm template are deleted\n"
+}
+
+function remove_domains_type() {
+        alternc_version=$1
+        template_target_path="/etc/alternc/templates/apache2/"
+        php_version_short_list=$(list_php_version "short")
+        sql=""
+
+        for template_path_file in "$template_target_path"*.conf
+        do
+			template_file=$(basename "$template_path_file")
+			if [[ $template_file =~ ^php[[:digit:]]+.* ]]; then
+				php_version_short=${template_file//[^[:digit:]]}
+
+				#Template found without their php version
+				if [[ ! ${php_version_short_list[*]} =~ (^|[[:space:]])$php_version_short($|[[:space:]]) ]]; then
+					rm "$template_path_file"
+					type_name="php$php_version_short-fpm"
+					sql="$sql \
+					DELETE FROM domaines_type WHERE \
+						name='$type_name' \
+					;"
+				fi
+			fi
+        done
+
+		mysql --defaults-file=/etc/alternc/my.cnf -e "$sql"
+}
+
+function generate_template_apache() {
+	alternc_version=$1
+	template_apache_path="/etc/alternc/templates/3.5/apache2/"
+
+	php_list=$(list_php_version)
+
+	if dpkg --compare-versions "${alternc_version:-0}" "<<" "3.5"; then
+		template_apache_path="/etc/alternc/templates/3.3/apache2/"
+	fi
+
+	for php_version in $php_list
+	do
+		php_version_short=${php_version//./}
+		for template_source_path in "$template_apache_path"*
+		do
+			template_source_name=$(basename "$template_source_path")
+			template_target_path=/etc/alternc/templates/apache2/${template_source_name//php-/php$php_version_short-}
+			cp "$template_source_path" "$template_target_path" || true
+			sed -i "$template_target_path" -e "s/%%PHPVERSION%%/$php_version/"
+		done
+	done
+}
+
+
+function generate_domains_type() {
+	alternc_version=$1
+	php_list=$(list_php_version)
+	sql=""
+	sql_in=""
+	set_default=""
+
+	if dpkg --compare-versions "${alternc_version:-0}" ">>" "3.5"; then
+		set_default="has_https_option=1,"
+	fi
+
+	for php_version in $php_list
+	do
+		type_name="php${php_version/[^0-9]/}-fpm"	
+		sql="$sql \
+			INSERT IGNORE INTO domaines_type SET \
+				name='$type_name', \
+				description='PHP $php_version FPM', \
+				target='DIRECTORY', \
+				entry='%SUB% IN A @@PUBLIC_IP@@', \
+				compatibility='txt,defmx,defmx2,mx,mx2', \
+				enable='ALL', \
+				need_dns=0, \
+				$set_default \
+				create_targetdir=1 \
+			;"
+		sql_in="$sql_in,'$type_name'"
+	done
+
+	sql="$sql\
+		UPDATE sub_domaines SET web_action='UPDATE' WHERE type IN (${sql_in/,/});
+	"
+
+	mysql --defaults-file=/etc/alternc/my.cnf -e "$sql"
+}
+
+
+alternc_version=$(dpkg-query --showformat='${Version}\n' --show alternc)
+printf "Alternc PHP FPM\n"
+
 case "$1" in
     configure)
-	echo "Configure template apache"
-	templates_path="/etc/alternc/templates/"
-	templates_source_apache="$templates_path/3.5/apache2/"
-	alternc_version=$(dpkg-query --showformat='${Version}\n' --show alternc)
-	if [[ -n "$alternc_version" ]]; then
-        if dpkg --compare-versions "${alternc_version:-0}" "<<" "3.5"; then
-            templates_source_apache="$templates_path/3.3/apache2"
-        fi
-        for template in "$templates_source_apache"/*.conf; do
-                template_name=$(basename "$template")
-                ln -sf "$template" "$templates_path/apache2/$template_name"
-        done
-	fi
-
-	echo "Enabling apache modules"
-	a2enmod proxy_fcgi setenvif
+	printf "\tEnabling apache modules\n"
+	a2enmod proxy_fcgi setenvif	
 	service apache2 restart
-	echo "Installing mysql table"
-	if dpkg --compare-versions "${alternc_version:-0}" ">>" "3.5"; then
-		mysql --defaults-file=/etc/alternc/my.cnf -e "
-	INSERT IGNORE INTO domaines_type SET name='php56-fpm', description='PHP 5.6 FPM', target='DIRECTORY', entry='%SUB% IN A @@PUBLIC_IP@@', compatibility='txt,defmx,defmx2,mx,mx2', enable='ALL', need_dns=0, has_https_option=1, create_targetdir=1;
-	INSERT IGNORE INTO domaines_type SET name='php70-fpm', description='PHP 7.0 FPM', target='DIRECTORY', entry='%SUB% IN A @@PUBLIC_IP@@', compatibility='txt,defmx,defmx2,mx,mx2', enable='ALL', need_dns=0, has_https_option=1, create_targetdir=1;
-	INSERT IGNORE INTO domaines_type SET name='php71-fpm', description='PHP 7.1 FPM', target='DIRECTORY', entry='%SUB% IN A @@PUBLIC_IP@@', compatibility='txt,defmx,defmx2,mx,mx2', enable='ALL', need_dns=0, has_https_option=1, create_targetdir=1;
-	INSERT IGNORE INTO domaines_type SET name='php72-fpm', description='PHP 7.2 FPM', target='DIRECTORY', entry='%SUB% IN A @@PUBLIC_IP@@', compatibility='txt,defmx,defmx2,mx,mx2', enable='ALL', need_dns=0, has_https_option=1, create_targetdir=1;
-	INSERT IGNORE INTO domaines_type SET name='php73-fpm', description='PHP 7.3 FPM', target='DIRECTORY', entry='%SUB% IN A @@PUBLIC_IP@@', compatibility='txt,defmx,defmx2,mx,mx2', enable='ALL', need_dns=0, has_https_option=1, create_targetdir=1;
-	INSERT IGNORE INTO domaines_type SET name='php74-fpm', description='PHP 7.4 FPM', target='DIRECTORY', entry='%SUB% IN A @@PUBLIC_IP@@', compatibility='txt,defmx,defmx2,mx,mx2', enable='ALL', need_dns=0, has_https_option=1, create_targetdir=1;
-	INSERT IGNORE INTO domaines_type SET name='php80-fpm', description='PHP 8.0 FPM', target='DIRECTORY', entry='%SUB% IN A @@PUBLIC_IP@@', compatibility='txt,defmx,defmx2,mx,mx2', enable='ALL', need_dns=0, has_https_option=1, create_targetdir=1;
-	UPDATE sub_domaines SET web_action='UPDATE' WHERE type IN ('php56-fpm','php70-fpm','php71-fpm','php72-fpm','php73-fpm','php74-fpm','php80-fpm');
-	"
-	else
-		mysql --defaults-file=/etc/alternc/my.cnf -e "
-	INSERT IGNORE INTO domaines_type SET name='php56-fpm', description='PHP 5.6 FPM', target='DIRECTORY', entry='%SUB% IN A @@PUBLIC_IP@@', compatibility='txt,defmx,defmx2,mx,mx2', enable='ALL', need_dns=0, create_targetdir=1;
-	INSERT IGNORE INTO domaines_type SET name='php70-fpm', description='PHP 7.0 FPM', target='DIRECTORY', entry='%SUB% IN A @@PUBLIC_IP@@', compatibility='txt,defmx,defmx2,mx,mx2', enable='ALL', need_dns=0, create_targetdir=1;
-	INSERT IGNORE INTO domaines_type SET name='php71-fpm', description='PHP 7.1 FPM', target='DIRECTORY', entry='%SUB% IN A @@PUBLIC_IP@@', compatibility='txt,defmx,defmx2,mx,mx2', enable='ALL', need_dns=0, create_targetdir=1;
-	INSERT IGNORE INTO domaines_type SET name='php72-fpm', description='PHP 7.2 FPM', target='DIRECTORY', entry='%SUB% IN A @@PUBLIC_IP@@', compatibility='txt,defmx,defmx2,mx,mx2', enable='ALL', need_dns=0, create_targetdir=1;
-	INSERT IGNORE INTO domaines_type SET name='php73-fpm', description='PHP 7.3 FPM', target='DIRECTORY', entry='%SUB% IN A @@PUBLIC_IP@@', compatibility='txt,defmx,defmx2,mx,mx2', enable='ALL', need_dns=0, create_targetdir=1;
-	INSERT IGNORE INTO domaines_type SET name='php74-fpm', description='PHP 7.4 FPM', target='DIRECTORY', entry='%SUB% IN A @@PUBLIC_IP@@', compatibility='txt,defmx,defmx2,mx,mx2', enable='ALL', need_dns=0, create_targetdir=1;
-	INSERT IGNORE INTO domaines_type SET name='php80-fpm', description='PHP 8.0 FPM', target='DIRECTORY', entry='%SUB% IN A @@PUBLIC_IP@@', compatibility='txt,defmx,defmx2,mx,mx2', enable='ALL', need_dns=0, create_targetdir=1;
-	UPDATE sub_domaines SET web_action='UPDATE' WHERE type IN ('php56-fpm','php70-fpm','php71-fpm','php72-fpm','php73-fpm','php74-fpm','php80-fpm');
-	"
-
-	fi
-	echo "Overriding php fpm configuration..."
+	printf "\tGenerating related apache template\n"
+	generate_template_apache "$alternc_version"
+	printf "\tClean php-fpm templates\n"
+	remove_old_php_template
+	printf "\tInstall php-fpm type\n"
+	generate_domains_type "$alternc_version"
+	printf "\tRemove unused php-fpm version\n"
+	remove_domains_type "$alternc_version"
+	printf "\tGenerate php fpm configuration...\n"
 	/usr/lib/alternc/php7-fpm force
 	;;
+
+    triggered)
+	printf "\tGenerating related apache template\n"
+	generate_template_apache "$alternc_version"
+	printf "\tUpdate php-fpm type\n"
+	generate_domains_type "$alternc_version"
+	printf "\tRemove unused php-fpm version\n"
+	remove_domains_type "$alternc_version"
+    ;;
+
 esac
 
 # dh_installdeb will replace this with shell code automatically
