@@ -1,3 +1,11 @@
+alternc-php-fpm (3.6.0) stable; urgency=medium
+
+  * Provide agnostic php-fpm dependency
+  * some fix about packaging
+  * Support both Alternc 3.3 and 3.5
+
+ -- Camille Lafitte <alternc@webelys.com>  Wed, 14 Jun 2023 17:13:20 +0200
+
 alternc-php-fpm (3.4.1) oldstable; urgency=low
 
   * Fix some regressions, check alternc version to load php related php template
