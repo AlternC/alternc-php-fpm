@@ -25,6 +25,15 @@ wget https://debian.alternc.org/key.txt -O - | apt-key add -
 apt update
 ```
 
+# Dependency #
+
+Prior to install this alternc-php-fpm package you need a nss sync. We provide two options :
+* alternc-nss 
+* alternc-nss-sync
+
+These packages are available at https://github.com/AlternC/alternc-nss and https://github.com/AlternC/alternc-nss/tree/nss-sync
+On huge hosting we suggest to prefere nss-sync version.
+
 # How to use #
 
 This package supports both Alternc 3.3 and 3.5. An autodection script adapts templating installation following AlternC version.
