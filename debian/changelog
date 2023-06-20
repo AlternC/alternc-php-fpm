@@ -1,10 +1,17 @@
+alternc-php-fpm (3.6.1) stable; urgency=medium
+
+  * Missing option on apache vhost 
+  * Improve documentation
+
+ -- Camille Lafitte <alternc@webelys.com>  Tue, 20 Jun 2023 16:03:20 +0200
+
 alternc-php-fpm (3.6.0) stable; urgency=medium
 
   * Provide agnostic php-fpm dependency
   * some fix about packaging
   * Support both Alternc 3.3 and 3.5
 
- -- Camille Lafitte <alternc@webelys.com>  Wed, 14 Jun 2023 17:13:20 +0200
+ -- Camille Lafitte <alternc@webelys.com>  Tue, 20 Jun 2023 15:50:00 +0200
 
 alternc-php-fpm (3.4.1) oldstable; urgency=low
 
