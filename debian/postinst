@@ -80,6 +80,11 @@ function generate_domains_type() {
 		set_default="has_https_option=1,"
 	fi
 
+	#If any php, nothing to do
+	if [[ -z "${php_list}" ]]; then
+		exit 0;
+	fi
+
 	for php_version in $php_list
 	do
 		type_name="php${php_version/[^0-9]/}-fpm"	
