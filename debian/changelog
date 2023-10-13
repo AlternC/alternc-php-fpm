@@ -1,3 +1,10 @@
+alternc-php-fpm (3.6.2) stable; urgency=medium
+
+  * Don't do anything when any php-fpm are present (mainly on fresh installation)
+  * Trig once during php module installation (prevent some loop refresh configuration)
+
+ -- Camille Lafitte <alternc@webelys.com>  Tue, 20 Jun 2023 16:03:20 +0200
+
 alternc-php-fpm (3.6.1) stable; urgency=medium
 
   * Missing option on apache vhost 
