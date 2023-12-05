@@ -1,3 +1,11 @@
+alternc-php-fpm (3.6.3) stretch buster; urgency=medium
+
+  * Provide package to debian.alternc.org (to stretch and buster)
+  * Clean rules action
+  * Fix : Set ErrorLog configuration on all template
+
+ -- Camille Lafitte <alternc@webelys.com>  Tue, 5 Dec 2023 14:22:10 +0200
+
 alternc-php-fpm (3.6.2) stable; urgency=medium
 
   * Don't do anything when any php-fpm are present (mainly on fresh installation)
