@@ -1,3 +1,10 @@
+alternc-php-fpm (3.6.4) stretch buster; urgency=medium
+
+  * Don't provide a package with zstd format
+  * Fix : process building package
+
+ -- Camille Lafitte <alternc@webelys.com>  Tue, 7 Dec 2023 10:40:03 +0200
+
 alternc-php-fpm (3.6.3) stretch buster; urgency=medium
 
   * Provide package to debian.alternc.org (to stretch and buster)
