@@ -62,7 +62,7 @@ function generate_template_apache() {
 		do
 			template_source_name=$(basename "$template_source_path")
 			template_target_path=/etc/alternc/templates/apache2/${template_source_name//php-/php$php_version_short-}
-			cp "$template_source_path" "$template_target_path" || true
+			cp -n "$template_source_path" "$template_target_path" || true
 			sed -i "$template_target_path" -e "s/%%PHPVERSION%%/$php_version/"
 		done
 	done
