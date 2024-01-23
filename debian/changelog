@@ -1,3 +1,10 @@
+alternc-php-fpm (3.6.5) stretch buster; urgency=medium
+
+  * Don't override existing type template
+  * Fix : #26
+
+ -- Camille Lafitte <alternc@webelys.com>  Tue, 23 Jan 2024 13:47:03 +0100
+
 alternc-php-fpm (3.6.4) stretch buster; urgency=medium
 
   * Don't provide a package with zstd format
