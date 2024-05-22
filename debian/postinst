@@ -24,7 +24,8 @@ function remove_domains_type() {
         php_version_short_list=$(list_php_version "short")
         sql=""
 
-        for template_path_file in "$template_target_path"*.conf
+        ##Retrieve only php-fpm templates
+        for template_path_file in "$template_target_path"*-fpm.conf
         do
 			template_file=$(basename "$template_path_file")
 			if [[ $template_file =~ ^php[[:digit:]]+.* ]]; then
