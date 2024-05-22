@@ -29,7 +29,7 @@ alternc-php-fpm (3.6.2) stable; urgency=medium
 
 alternc-php-fpm (3.6.1) stable; urgency=medium
 
-  * Missing option on apache vhost 
+  * Missing option on apache vhost
   * Improve documentation
 
  -- Camille Lafitte <alternc@webelys.com>  Tue, 20 Jun 2023 16:03:20 +0200

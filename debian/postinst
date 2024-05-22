@@ -88,7 +88,7 @@ function generate_domains_type() {
 
 	for php_version in $php_list
 	do
-		type_name="php${php_version/[^0-9]/}-fpm"	
+		type_name="php${php_version/[^0-9]/}-fpm"
 		sql="$sql \
 			INSERT IGNORE INTO domaines_type SET \
 				name='$type_name', \
@@ -118,7 +118,7 @@ printf "Alternc PHP FPM\n"
 case "$1" in
     configure)
 	printf "\tEnabling apache modules\n"
-	a2enmod proxy_fcgi setenvif	
+	a2enmod proxy_fcgi setenvif
 	service apache2 restart
 	printf "\tGenerating related apache template\n"
 	generate_template_apache "$alternc_version"
