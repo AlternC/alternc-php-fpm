@@ -1,3 +1,9 @@
+alternc-php-fpm (3.6.6) stretch buster; urgency=medium
+
+  * Don't remove other php template
+
+ -- Camille Lafitte <alternc@webelys.com>  Tue, 22 May 2024 10:04:00 +0200
+
 alternc-php-fpm (3.6.5) stretch buster; urgency=medium
 
   * Don't override existing type template
