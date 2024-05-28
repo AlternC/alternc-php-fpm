@@ -4,7 +4,7 @@
 /* This crontab adds/remove FPM pools for any php fpm version
    for each user who uses a fpm configuration
 */
-   
+
 require_once("/usr/share/alternc/panel/class/config_nochk.php");
 
 // first launch sync_unix since we NEED unix user to exist!
