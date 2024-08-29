@@ -1,7 +1,10 @@
 debian/.debhelper/
-debian/debhelper-build-stamp/
+debian/*.debhelper
+debian/debhelper-build-stamp
 debian/files
-debian/alternc-php-fpm.debhelper.log
-debian/alternc-php-fpm.substvars
-debian/alternc-php-fpm/
+debian/*.log
+debian/*.substvars
+debian/*/
+
+*.swp
 *.gpg
