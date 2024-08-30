@@ -62,7 +62,7 @@ foreach($allversions as $version) {
     while (($c=readdir($d))!==false) {
         if (preg_match('#([^\.]*).alternc.conf$#',$c,$mat)) {
             $user=$mat[1];
-            if (!in_array($user,$allpools[$version])) {
+            if (empty($allpools[$version]) || !in_array($user,$allpools[$version])) {
                 myecho("Deleting php $version fpm pool for user $user");
                 @unlink("/etc/php/".$version."/fpm/pool.d/".$user.".alternc.conf");
                 $reload[$version]=$version;
