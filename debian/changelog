@@ -1,3 +1,12 @@
+alternc-php-fpm (3.7.0) stretch buster bullseye bookworm; urgency=medium
+
+  * Enable bullseye bookworm support
+  * Delete existing pool when any new pool are set to a specific php version
+  * Provide ErrorLog codebase in all apache vhost
+  * Update vhost template to support ssl proxy mode
+
+ -- Camille Lafitte <alternc@webelys.com>  Fri, 30 Aug 2024 10:45:00 +0200
+
 alternc-php-fpm (3.6.6) stretch buster; urgency=medium
 
   * Don't remove other php template
