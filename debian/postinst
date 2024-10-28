@@ -1,6 +1,8 @@
 #!/bin/bash -e
 
 #DEBHELPER#
+# Include alternc function (and mysql)
+. /usr/lib/alternc/functions.sh
 
 function list_php_version() {
 	if [[ $1 == "short" ]]; then
@@ -77,9 +79,11 @@ function generate_domains_type() {
 	sql_in=""
 	set_default=""
 
-	if dpkg --compare-versions "${alternc_version:-0}" ">>" "3.5"; then
-		set_default="has_https_option=1,"
-	fi
+	##Set https option only if column is present
+	##During upgrade process from <3.5, schema is not yet updated
+    if [[ -n $(mysql_query "SHOW COLUMNS FROM domaines_type LIKE 'has_https_option';") ]]; then
+        set_default="has_https_option=1,"
+    fi
 
 	#If any php, nothing to do
 	if [[ -z "${php_list}" ]]; then
