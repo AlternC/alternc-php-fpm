@@ -143,6 +143,8 @@ case "$1" in
 	generate_domains_type "$alternc_version"
 	printf "\tRemove unused php-fpm version\n"
 	remove_domains_type "$alternc_version"
+	printf "\tGenerate php fpm configuration...\n"
+	/usr/lib/alternc/php7-fpm force
     ;;
 
 esac
