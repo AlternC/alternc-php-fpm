@@ -12,7 +12,9 @@ passthru("/usr/lib/alternc/install.d/alternc-nss end");
 
 $force = (isset($argv[1]) && $argv[1]=="force");
 
-$db->query("SELECT DISTINCT m.login,m.uid,sd.type FROM sub_domaines sd, membres m WHERE m.uid=sd.compte AND sd.type LIKE 'php__-fpm';");
+$login_prefix = !empty($GLOBALS['L_LOGIN_PREFIX']) ? $GLOBALS['L_LOGIN_PREFIX'] . "_" : "";
+
+$db->query("SELECT DISTINCT CONCAT('".$login_prefix."',m.login) as login,m.uid,sd.type FROM sub_domaines sd, membres m WHERE m.uid=sd.compte AND sd.type LIKE 'php__-fpm';");
 
 $reload=array();
 $allpools=array();
