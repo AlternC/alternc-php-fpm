@@ -23,10 +23,14 @@ $reload=array();
 $allpools=array();
 $allversions=array();
 if (file_exists('/etc/timezone')) {
-    $timezone = trim(file_get_contents('/etc/timezone'));
-    //If TZ is invalid, act as undefined but we prefer unset value in each pool
+    $timezone = variable_get('timezone', '', 'Override server TZ');
+    //If TZ is invalid, load server TZ
     if (!@timezone_open($timezone)) {
-        $timezone="";
+        $timezone = trim(file_get_contents('/etc/timezone'));
+    }
+    //If server TZ is invalid, unset value
+    if (!@timezone_open($timezone)) {
+        $timezone = "";
     }
 }
 
