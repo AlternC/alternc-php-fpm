@@ -24,6 +24,10 @@ $allpools=array();
 $allversions=array();
 if (file_exists('/etc/timezone')) {
     $timezone = trim(file_get_contents('/etc/timezone'));
+    //If TZ is invalid, act as undefined but we prefer unset value in each pool
+    if (!@timezone_open($timezone)) {
+        $timezone="";
+    }
 }
 
 foreach(glob("/usr/lib/tmpfiles.d/php*-fpm.conf") as $path) {
