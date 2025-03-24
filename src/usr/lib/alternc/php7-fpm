@@ -23,7 +23,7 @@ $reload=array();
 $allpools=array();
 $allversions=array();
 if (file_exists('/etc/timezone')) {
-    $timezone = file_get_contents('/etc/timezone');
+    $timezone = trim(file_get_contents('/etc/timezone'));
 }
 
 foreach(glob("/usr/lib/tmpfiles.d/php*-fpm.conf") as $path) {
