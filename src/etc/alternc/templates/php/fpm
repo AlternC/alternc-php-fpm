@@ -9,3 +9,6 @@ pm.max_children = 10
 pm.process_idle_timeout = 60s
 pm.max_requests = 1000
 catch_workers_output = yes
+
+php_admin_flag[session.upload_progress.enabled] = off
+php_admin_flag[session.use_strict_mode] = on
