@@ -1,3 +1,9 @@
+alternc-php-fpm (3.8.0) stretch buster bullseye bookworm; urgency=critical
+
+  * Related to CVE CVE-2026-109618 and CVE-2026-109619
+
+ -- Camille Lafitte <alternc@webelys.com>  Wed, 21 Oct 2026 12:00:00 +0200
+
 alternc-php-fpm (3.7.0) stretch buster bullseye bookworm; urgency=medium
 
   * Enable bullseye bookworm support
