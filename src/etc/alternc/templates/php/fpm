@@ -1,7 +1,7 @@
 [%%LOGIN%%]
-user = %%LOGIN%%
-group = %%LOGIN%%
-listen = /run/php/php%%PHPVERSION%%-%%LOGIN%%.sock
+user = %%LOGIN_PREFIX%%%%LOGIN%%
+group = %%LOGIN_PREFIX%%%%LOGIN%%
+listen = /run/php/php%%PHPVERSION%%-%%LOGIN_PREFIX%%%%LOGIN%%.sock
 listen.owner = %%LOGIN%%
 listen.group = %%LOGIN%%
 pm = ondemand
